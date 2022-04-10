@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  sql:
+    image: postgres:14.2-alpine3.15
+    environment:
+      POSTGRES_USER: sqluser
+      POSTGRES_PASSWORD: sqlpassword
+      POSTGRES_DB: elearning
+    volumes:
+      - ./data/sql:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - dbnet
+
+  mongo:
+    image: mongo:5.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongouser
+      MONGO_INITDB_ROOT_PASSWORD: mongopassword
+      MONGO_INITDB_DATABASE: elearning
+    volumes:
+      - ./data/mongo:/data/db
+    networks:
+      - dbnet
+
+  redis:
+    image: redis
+    networks:
+      - dbnet
+
+networks:
+  dbnet:
+    name: dbnet
