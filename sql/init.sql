@@ -2,24 +2,19 @@ CREATE TABLE student (
   student_id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   surname VARCHAR(255) NOT NULL,
-  semester INTEGER NOT NULL,
-  created_on TIMESTAMP NOT NULL,
-  last_login TIMESTAMP
+  semester INTEGER NOT NULL
 );
 
 CREATE TABLE professor (
   professor_id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
-  surname VARCHAR(255) NOT NULL,
-  created_on TIMESTAMP NOT NULL,
-  last_login TIMESTAMP
+  surname VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE course (
   course_id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
-  semester INTEGER NOT NULL,
-  created_on TIMESTAMP NOT NULL
+  semester INTEGER NOT NULL
 );
 
 CREATE TABLE test (
@@ -32,3 +27,7 @@ CREATE TABLE test (
   FOREIGN KEY (student_id) REFERENCES student(student_id),
   FOREIGN KEY (professor_id) REFERENCES professor(professor_id)
 );
+
+COPY student (student_id, name, surname, semester) FROM '/data/students.csv' DELIMITER ',' CSV HEADER;
+COPY professor (professor_id, name, surname) FROM '/data/professors.csv' DELIMITER ',' CSV HEADER;
+COPY course (course_id, name, semester) FROM '/data/courses.csv' DELIMITER ',' CSV HEADER;
