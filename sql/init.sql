@@ -22,6 +22,7 @@ CREATE TABLE test (
   course_id INTEGER NOT NULL,
   student_id INTEGER NOT NULL,
   professor_id INTEGER NOT NULL,
+  grade FLOAT(2.1) NOT NULL,
   given TIMESTAMP NOT NULL,
   FOREIGN KEY (course_id) REFERENCES course(course_id),
   FOREIGN KEY (student_id) REFERENCES student(student_id),
