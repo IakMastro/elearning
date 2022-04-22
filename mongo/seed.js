@@ -25,7 +25,7 @@ db.courses.insertMany([
         video: [{ youtube_link: 'https://www.youtube.com/watch?v=1enJYF6E7xE&t=634s' }],
         test: [
           {
-            question_1: 'text',
+            question: 'text',
             question_type: 'multiple',
             answer_1: 'a',
             answer_2: 'b',
