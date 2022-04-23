@@ -16,13 +16,11 @@ export default {
     })
   },
   modules: {
-    ...mapActions({
-      clearAlert: 'alert/clear'
-    }),
+    ...mapActions('alert', ['clear']),
   },
   watch: {
     $route(to, from) {
-      // this.clearAlert()
+      this.clear
     }
   }
 }
