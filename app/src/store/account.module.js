@@ -11,13 +11,20 @@ const actions = {
     user_service.login(id, password)
       .then(
         query => {
-          commit('loginSuccess', { id: id, role: query.user_role })
-          router.push('/')
-          localStorage.setItem('user', id)
-          dispatch('alert/success', "Logged in successfully!", { root: true })
+          if (query.data.user_role !== undefined) {
+            commit('loginSuccess', { id: id, role: query.data.user_role })
+            dispatch('alert/success', "Logged in successfully!", { root: true })
+            localStorage.setItem('user', id)
+            router.push('/')
+          }
+
+          if (query.data.error !== undefined) {
+            commit('loginFailure')
+            dispatch('alert/error', query.data.error, { root: true })
+          }
         },
         error => {
-          commit('loginFailure', error)
+          commit('loginFailure')
           dispatch('alert/error', error, { root: true })
         }
       )
