@@ -3,10 +3,24 @@ import users from './models/users.js'
 
 const user_router = express.Router()
 
+// Get user
 user_router.get('/:id', async (req, res) => {
   users.findById(req.params.id, 'role', (err, user) => {
     // TODO: Get extra data from PHP API, see role and hit either /students or /professors
     res.send(user)
+  })
+})
+
+// Login user
+user_router.post('/:id', async (req, res) => {
+  users.findById(req.params.id, (err, user) => {
+    if (user === null) {
+      res.send({ error: "User not found with this ID" })
+    } else if (user.password == req.body.password) {
+      res.send({ user_role: user.role })
+    } else {
+      res.send({ error: "Passwords do not match" })
+    }
   })
 })
 

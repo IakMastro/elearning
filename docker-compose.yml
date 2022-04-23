@@ -1,18 +1,38 @@
 version: '3.9'
 
 services:
+  webinterface:
+    build: app
+    container_name: elearning-app
+    hostname: app
+    volumes:
+      - ./app:/app
+    depends_on:
+      - mainapi
+    ports:
+      - 8080:8080
+    environment:
+      NODE_APP: elearning-interface
+      NODE_ENV: development
+    networks:
+      - elearningnet
+
   mainapi:
     build: main-api
+    container_name: elearning-mainapi
     hostname: api
     volumes:
       - ./main-api:/api
     depends_on:
       - mongo
+    ports:
+      - 5000:5000
     networks:
       - elearningnet
 
   sql:
     build: sql
+    container_name: elearning-sql
     hostname: sql
     environment:
       POSTGRES_PASSWORD: 1234
@@ -25,7 +45,7 @@ services:
 
   mongoexpress:
     image: mongo-express:0.54.0
-    container_name: mongo-express
+    container_name: eleraning-mongo-express
     environment:
       ME_CONFIG_MONGODB_OPTIONS_EDITORTHEME: "dracula"
       ME_CONFIG_MONDODB_URL: mongodb://dbuser:dbpass@mongo:27017
@@ -39,6 +59,7 @@ services:
 
   mongo:
     build: mongo
+    container_name: elearning-mongo
     hostname: mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: dbuser
