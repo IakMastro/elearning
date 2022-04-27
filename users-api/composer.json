@@ -1,0 +1,6 @@
+{
+    "require": {
+        "slim/slim": "3.*",
+        "eko3alpha/slim-cors-middleware": "^1.1"
+    }
+}

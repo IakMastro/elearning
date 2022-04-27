@@ -30,6 +30,17 @@ services:
     networks:
       - elearningnet
 
+  usersapi:
+      build: users-api
+      container_name: elearning-userapi
+      hostname: users
+      volumes:
+        - ./users-api:/data
+      depends_on:
+        - sql
+      networks:
+        - elearningnet
+
   sql:
     build: sql
     container_name: elearning-sql
