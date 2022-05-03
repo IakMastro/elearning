@@ -5,9 +5,21 @@ const user_router = express.Router()
 
 // Get user
 user_router.get('/:id', async (req, res) => {
-  users.findById(req.params.id, 'role', (err, user) => {
-    // TODO: Get extra data from PHP API, see role and hit either /students or /professors
-    res.send(user)
+  users.findById(req.params.id, 'role', async (err, user) => {
+    let sql_data = await axios.get(`http://usersapi:8080/{user.role}s/{user.id}`)
+
+    console.log(sql_data);
+    let sent_back = {
+      name: sql_data.name,
+      surname: sql_data.surname,
+      role: user.role
+    }
+
+    if (user.role === 'student') {
+      sent_back.semester = sql_data.semester
+    }
+
+    res.send(sent_back)
   })
 })
 
@@ -27,10 +39,16 @@ user_router.post('/:id', async (req, res) => {
 user_router.post('/create', async (req, res) => {
   let new_user = req.body.user
 
-  // TODO: Add first to SQL db, get id and add it here
+  let sql_user = {
+    name: new_user.name,
+    surname: new_user.surname
+  }
+
+  let resp = await axios.post(`http://usersapi:8080/${user.role}s`, sql_user)
+  let id = new_user.role == "student" ? resp.data.student_id : resp.data.professor_id
+
   let mongo_user = new users({
-    // _id: sql_data.id,
-    _id: 10,
+    _id: id,
     password: new_user.password,
     role: new_user.role
   })

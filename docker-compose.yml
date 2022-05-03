@@ -25,6 +25,7 @@ services:
       - ./main-api:/api
     depends_on:
       - mongo
+      - usersapi
     ports:
       - 5000:5000
     networks:
@@ -35,7 +36,7 @@ services:
       container_name: elearning-userapi
       hostname: users
       volumes:
-        - ./users-api:/data
+        - ./users-api:/api
       depends_on:
         - sql
       networks:

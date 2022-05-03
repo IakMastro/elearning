@@ -19,7 +19,7 @@ function logout() {
 }
 
 // TODO: create endpoint to the API
-async function register(user) { 
+async function register(user) {
   axios.post(`${api_url}/create`, { user: user })
 }
 

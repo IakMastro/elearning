@@ -12,6 +12,7 @@ const actions = {
       .then(
         query => {
           if (query.data.user_role !== undefined) {
+            console.log(query.data);
             commit('loginSuccess', { id: id, role: query.data.user_role })
             dispatch('alert/success', "Logged in successfully!", { root: true })
             localStorage.setItem('user', id)
@@ -37,6 +38,10 @@ const actions = {
     commit('registerRequest', user)
 
     user_service.register(user)
+  },
+  getData({ commit }, id) {
+    commit('getDataRequest', id)
+    user_service.getById(id)
   }
 }
 
