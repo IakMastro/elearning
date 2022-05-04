@@ -1,22 +1,19 @@
 import express from 'express'
 import users from './models/users.js'
+import axios from 'axios'
 
 const user_router = express.Router()
 
 // Get user
 user_router.get('/:id', async (req, res) => {
   users.findById(req.params.id, 'role', async (err, user) => {
-    let sql_data = await axios.get(`http://usersapi:8080/{user.role}s/{user.id}`)
+    let sql_data = await axios.get(`http://usersapi:8080/${user.role}s/${user.id}`)
 
-    console.log(sql_data);
     let sent_back = {
-      name: sql_data.name,
-      surname: sql_data.surname,
+      name: sql_data.data.name,
+      surname: sql_data.data.surname,
+      semester: sql_data.data.semester,
       role: user.role
-    }
-
-    if (user.role === 'student') {
-      sent_back.semester = sql_data.semester
     }
 
     res.send(sent_back)

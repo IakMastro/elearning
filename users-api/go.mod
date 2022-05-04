@@ -8,6 +8,7 @@ require (
 	github.com/jinzhu/gorm v1.9.16
 	github.com/lib/pq v1.10.5
 	github.com/rs/cors v1.8.2
+	gopkg.in/gorp.v1 v1.7.2
 )
 
 require (

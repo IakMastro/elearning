@@ -40,8 +40,12 @@ const actions = {
     user_service.register(user)
   },
   getData({ commit }, id) {
-    commit('getDataRequest', id)
     user_service.getById(id)
+      .then(
+        query => {
+          console.log(query)
+        }
+      )
   }
 }
 

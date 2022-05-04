@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { ref, computed, reactive, nextTick } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {

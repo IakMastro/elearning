@@ -3,7 +3,17 @@
 </template>
 
 <script>
-export default {
+import { mapActions, mapState } from 'vuex'
 
+export default {
+  computed: {
+    ...mapState('account', ['user'])
+  },
+  methods: {
+    ...mapActions('account', ['getData'])
+  },
+  created() {
+    this.getData(localStorage.getItem('user'))
+  }
 }
 </script>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const api_url = "http://localhost:5000/"
+const api_url = "http://localhost:5000/users"
 
 export const user_service = {
   login,
@@ -11,7 +11,7 @@ export const user_service = {
 }
 
 async function login(id, password) {
-  return await axios.post(`${api_url}users/${id}`, { password: password })
+  return await axios.post(`${api_url}/${id}`, { password: password })
 }
 
 function logout() {
