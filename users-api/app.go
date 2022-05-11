@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -12,25 +11,41 @@ import (
 
 var dbmap = initDb()
 
-type Student struct {
-	Id       int64  `db:"student_id" json:"id"`
-	Name     string `db:"name" json:"name"`
-	Surname  string `db:"surname" json:"surname"`
-	Semester string `db:"semester" json:"semester"`
+type User struct {
+	Id         int64  `db:"id" json:"id"`
+	Name       string `db:"name" json:"name"`
+	Surname    string `db:"surname" json:"surname"`
+	IsTutor    bool   `db:"isTutor" json:"is_tutor"`
+	University string `db:"university" json:"university"`
+	Created    string `db:"created" json:"created"`
+	IsActive   bool   `db:"isActive" json:"is_active"`
 }
 
-type Professor struct {
-	Id      int64  `db:"professor_id" json:"id"`
-	Name    string `db:"name" json:"name"`
-	Surname string `db:"surname" json:"surname"`
+type Course struct {
+	Id          int64  `db:"id" json:"id"`
+	Name        string `db:"name" json:"name"`
+	Category    string `db:"category" json:"category"`
+	Subcategory string `db:"subcategory" json:"subcategory"`
+	Description string `db:"description" json:"description"`
+	Rating      string `db:"rating" json:"rating"`
+	Created     string `db:"created" json:"created"`
+	TutorId     int64  `db:"tutorId" json:"tutor_id"`
+}
+
+type Grade struct {
+	Id       int64   `db:"id" json:"id"`
+	CourseId int64   `db:"courseId" json:"course_id"`
+	UserId   int64   `db:"studentId" json:"student_id"`
+	Grade    float32 `db:"grade" json:"grade"`
 }
 
 func initDb() *gorp.DbMap {
 	db, err := sql.Open("postgres", "postgres://postgres:1234@sql/elearning?sslmode=disable")
 	checkErr(err, "sql.Open failed")
 	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
-	dbmap.AddTableWithName(Student{}, "student").SetKeys(true, "Id")
-	dbmap.AddTableWithName(Professor{}, "professor").SetKeys(true, "Id")
+	dbmap.AddTableWithName(User{}, "users").SetKeys(true, "Id")
+	dbmap.AddTableWithName(Course{}, "courses").SetKeys(true, "Id")
+	dbmap.AddTableWithName(Grade{}, "grades").SetKeys(true, "Id")
 	err = dbmap.CreateTablesIfNotExists()
 	checkErr(err, "Create tables failed")
 	return dbmap
@@ -42,54 +57,108 @@ func checkErr(err error, msg string) {
 	}
 }
 
-func getStudents(c *gin.Context) {
-	var students []Student
-	_, err := dbmap.Select(&students, "SELECT * FROM student")
+func getCourses(c *gin.Context) {
+	var courses []Course
+	_, err := dbmap.Select(&courses, "SELECT * FROM courses")
 	if err != nil {
-		c.JSON(500, gin.H{"error": "error"})
+		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(200, students)
+	c.JSON(200, courses)
 }
 
-func getStudent(c *gin.Context) {
+func getCourse(c *gin.Context) {
 	id := c.Params.ByName("id")
-	var student Student
-	err := dbmap.SelectOne(&student, "SELECT * FROM student WHERE student_id=$1", id)
+	var course Course
+	err := dbmap.SelectOne(&course, "SELECT * FROM courses WHERE id=$1", id)
 	if err != nil {
-		c.JSON(500, gin.H{"error": "error"})
+		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(200, student)
+	c.JSON(200, course)
 }
 
-func getProfessors(c *gin.Context) {
-	var professors []Professor
-	_, err := dbmap.Select(&professors, "SELECT * FROM professor")
+func addCourse(c *gin.Context) {
+	var course Course
+	c.BindJSON(&course)
+	err := dbmap.Insert(&course)
 	if err != nil {
-		c.JSON(500, gin.H{"error": "error"})
+		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(200, professors)
+	c.JSON(200, course)
 }
 
-func getProfessor(c *gin.Context) {
+func getUser(c *gin.Context) {
 	id := c.Params.ByName("id")
-	var professor Professor
-	err := dbmap.SelectOne(&professor, "SELECT * FROM professor WHERE professor_id=$1", id)
-	fmt.Println(professor)
+	var user User
+	err := dbmap.SelectOne(&user, "SELECT * FROM users WHERE id=$1", id)
 	if err != nil {
-		c.JSON(500, gin.H{"error": err})
+		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(200, professor)
+	c.JSON(200, user)
+}
+
+func addUser(c *gin.Context) {
+	var user User
+	c.BindJSON(&user)
+	err := dbmap.Insert(&user)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, user)
+}
+
+func disableUser(c *gin.Context) {
+	id := c.Params.ByName("id")
+	var user User
+	err := dbmap.SelectOne(&user, "SELECT * FROM users WHERE id=$1", id)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	user.IsActive = !user.IsActive
+	_, err = dbmap.Update(&user)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, user)
+}
+
+func getGrades(c *gin.Context) {
+	id := c.Params.ByName("id")
+	var grades []Grade
+	_, err := dbmap.Select(&grades, "SELECT * FROM grades WHERE studentId=$1", id)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, grades)
+}
+
+func addGrade(c *gin.Context) {
+	var grade Grade
+	c.BindJSON(&grade)
+	err := dbmap.Insert(&grade)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, grade)
 }
 
 func main() {
 	router := gin.Default()
-	router.GET("/students", getStudents)
-	router.GET("/students/:id", getStudent)
-	router.GET("/professors", getProfessors)
-	router.GET("/professors/:id", getProfessor)
+	router.GET("/courses", getCourses)
+	router.POST("/courses", addCourse)
+	router.GET("/courses/:id", getCourse)
+	router.POST("/users", addUser)
+	router.GET("/users/:id", getUser)
+	router.PUT("/users/:id", disableUser)
+	router.POST("/grades", addGrade)
+	router.GET("/grades/:id", getGrades)
 	router.Run(":8080")
 }

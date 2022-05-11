@@ -1,2 +1,2 @@
-course_id,name,semester
-1,Object Oriented Progamming,2
+id;name;category;subcategory;description;tutorId
+1;Object Oriented Progamming;Computer Science;Programming;This is a course about object oriented programming;1645
