@@ -89,6 +89,17 @@ func addCourse(c *gin.Context) {
 	c.JSON(200, course)
 }
 
+func updateCourse(c *gin.Context) {
+	var course Course
+	c.BindJSON(&course)
+	_, err := dbmap.Update(&course)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, course)
+}
+
 func getUser(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var user User
@@ -104,6 +115,17 @@ func addUser(c *gin.Context) {
 	var user User
 	c.BindJSON(&user)
 	err := dbmap.Insert(&user)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, user)
+}
+
+func updateUser(c *gin.Context) {
+	var user User
+	c.BindJSON(&user)
+	_, err := dbmap.Update(&user)
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
@@ -155,8 +177,10 @@ func main() {
 	router.GET("/courses", getCourses)
 	router.POST("/courses", addCourse)
 	router.GET("/courses/:id", getCourse)
+	router.POST("/courses/:id", updateCourse)
 	router.POST("/users", addUser)
 	router.GET("/users/:id", getUser)
+	router.POST("/users/:id", updateUser)
 	router.PUT("/users/:id", disableUser)
 	router.POST("/grades", addGrade)
 	router.GET("/grades/:id", getGrades)
