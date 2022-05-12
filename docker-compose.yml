@@ -23,9 +23,11 @@ services:
     hostname: api
     volumes:
       - ./main-api:/api
+      - ./data/files:/files
     depends_on:
       - mongo
       - usersapi
+      - statisticsapi
     ports:
       - 5000:5000
     networks:
@@ -33,7 +35,7 @@ services:
 
   usersapi:
     build: users-api
-    container_name: elearning-userapi
+    container_name: elearning-usersapi
     hostname: users
     volumes:
       - ./users-api:/api

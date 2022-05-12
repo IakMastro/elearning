@@ -23,6 +23,7 @@ CREATE TABLE grades (
   id SERIAL PRIMARY KEY,
   courseId INTEGER REFERENCES courses(id),
   studentId INTEGER REFERENCES users(id),
+  testId INTEGER,
   grade FLOAT
 );
 

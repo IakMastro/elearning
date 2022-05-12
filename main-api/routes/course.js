@@ -3,17 +3,50 @@ import axios from 'axios'
 import courses from './models/courses.js'
 
 const courses_router = express.Router()
+const users_api_url = "http://usersapi:8080"
 
 courses_router.get('/', async (req, res) => {
-  courses.find({}, (err, db_courses) => {
-    res.send(db_courses)
-  })
+  axios.get(`${users_api_url}/courses`)
+    .then((response) => {
+      const courses = response.data
+      delete courses.created
+      res.status(200).send(courses)
+    })
+    .catch((error) => {
+      res.status(400).send({ error: error })
+    })
 })
 
 courses_router.get('/:id', async (req, res) => {
   courses.findById(req.params.id, 'content', (err, course) => {
-    res.send(course)
+    axios.get(`${users_api_url}/courses/${req.params.id}`)
+      .then((response) => {
+        const sql_course = response.data
+
+        res.status(200).send({
+          chapters: course.chapters,
+          name: sql_course.name,
+          category: sql_course.category,
+          subcategory: sql_course.subcategory,
+          description: sql_course.description,
+          tutorId: sql_course.tutorId
+        })
+      })
+      .catch((error) => {
+        res.status(400).send({ error: error })
+      })
   })
+  res.send(404)
+})
+
+courses_router.post('/:id', async (req, res) => {
+  axios.post(`${users_api_url}/courses/${req.params.id}`, req.body)
+    .then((response) => {
+      res.send(response.status)
+    })
+    .catch((error) => {
+      res.status(400).send({ error: error })
+    })
 })
 
 // NOTE: This needs testing
@@ -24,17 +57,6 @@ courses_router.post('/:id/:index/test/create', async (req, res) => {
   let content = await axios.get(`http://localhost:5000/${course_id}`)
   content[chapter_index]['test'].append(req.body.test)
   courses.findByIdAndUpdate(course_id, { $set: { content: content } })
-})
-
-courses_router.get('/:id/:index/test', async (req, res) => {
-  courses.findById(req.params.id, 'content', (err, course) => {
-    res.send(course.content[req.params.index]['test'])
-  })
-})
-
-// NOTE: This needs testing
-courses_router.get('/:id/:index/files/:path', async (req, res) => {
-  res.download(req.params.path)
 })
 
 // NOTE: This needs testing
@@ -55,9 +77,14 @@ courses_router.post('/:id/:index/files/upload', async (req, res) => {
   uploaded_file.mv(path, (err) => {
     if (err)
       return res.status(500).send(err)
-    
+
     res.send(201)
   })
+})
+
+// NOTE: This needs testing
+courses_router.get('/:id/:index/files/:path', async (req, res) => {
+  res.download(req.params.path)
 })
 
 export default courses_router

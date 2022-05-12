@@ -18,13 +18,12 @@ db.courses.drop();
 db.courses.insertMany([
   {
     _id: '1',
-    content: [
+    chapters: [
       {
-        source_code: [{ file_name: 'path_to_file' }],
-        pdf: [{ file_name: 'path_to file' }],
-        video: [{ youtube_link: 'https://www.youtube.com/watch?v=1enJYF6E7xE&t=634s' }],
+        files: [{ file_name: 'path_to file' }],
         test: [
           {
+            _id: '1',
             question: 'text',
             question_type: 'multiple',
             answer_1: 'a',

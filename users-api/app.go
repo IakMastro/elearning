@@ -36,6 +36,7 @@ type Grade struct {
 	Id       int64   `db:"id" json:"id"`
 	CourseId int64   `db:"courseId" json:"course_id"`
 	UserId   int64   `db:"studentId" json:"student_id"`
+	TestId   int64   `db:"testId" json:"test_id"`
 	Grade    float32 `db:"grade" json:"grade"`
 }
 
@@ -86,7 +87,7 @@ func addCourse(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(200, course)
+	c.JSON(201, course)
 }
 
 func updateCourse(c *gin.Context) {
@@ -119,7 +120,7 @@ func addUser(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(200, user)
+	c.JSON(201, user)
 }
 
 func updateUser(c *gin.Context) {
@@ -169,7 +170,7 @@ func addGrade(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(200, grade)
+	c.JSON(201, grade)
 }
 
 func main() {
