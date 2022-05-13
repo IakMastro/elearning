@@ -9,7 +9,6 @@ courses_router.get('/', async (req, res) => {
   axios.get(`${users_api_url}/courses`)
     .then((response) => {
       const courses = response.data
-      delete courses.created
       res.status(200).send(courses)
     })
     .catch((error) => {

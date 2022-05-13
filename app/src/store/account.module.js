@@ -43,7 +43,7 @@ const actions = {
     user_service.getById(id)
       .then(
         query => {
-          console.log(query)
+          commit('getDataSuccess', query.data)
         }
       )
   }
@@ -56,6 +56,9 @@ const mutations = {
   },
   loginSuccess(state, user) {
     state.status = { loggedIn: true }
+    state.user = user
+  },
+  getDataSuccess(state, user) {
     state.user = user
   },
   loginFailure(state) {
