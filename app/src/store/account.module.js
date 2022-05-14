@@ -2,7 +2,9 @@ import router from "@/router"
 import { user_service } from "@/services/user.service"
 
 const user = JSON.parse(localStorage.getItem('user'))
-const state = user ? { status: { loggedIn: true }, user: user } : { status: { loggedIn: false }, user: null }
+const grades = JSON.parse(localStorage.getItem('grades'))
+const statistics = JSON.parse(localStorage.getItem('statistics'))
+const state = user ? { status: { loggedIn: true }, user: user, grades: grades, statistics: statistics } : { status: { loggedIn: false }, user: null, grades: null, statistics: null }
 
 const actions = {
   login({ dispatch, commit }, { id, password }) {
@@ -12,7 +14,6 @@ const actions = {
       .then(
         query => {
           if (query.data.user_role !== undefined) {
-            console.log(query.data);
             commit('loginSuccess', { id: id, role: query.data.user_role })
             dispatch('alert/success', "Logged in successfully!", { root: true })
             localStorage.setItem('user', id)
@@ -43,7 +44,26 @@ const actions = {
     user_service.getById(id)
       .then(
         query => {
+          localStorage.setItem('user', JSON.stringify(query.data))
           commit('getDataSuccess', query.data)
+        }
+      )
+  },
+  getGrades({ commit }) {
+    user_service.getGrades(user)
+      .then(
+        query => {
+          localStorage.setItem('grades', JSON.stringify(query.data))
+          commit('getGradesSuccess', query.data)
+        }
+      )
+  },
+  getStatistics({ commit }) {
+    user_service.getStatistics(user, grades)
+      .then(
+        query => {
+          localStorage.setItem('statistics', JSON.stringify(query.data))
+          commit('getStatisticsSuccess', query.data)
         }
       )
   }
@@ -77,6 +97,12 @@ const mutations = {
   },
   registerFailure(state) {
     state.status = { loggedIn: false }
+  },
+  getGradesSuccess(state, grades) {
+    state.grades = grades
+  },
+  getStatisticsSuccess(state, statistics) {
+    state.statistics = statistics
   }
 }
 

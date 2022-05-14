@@ -78,7 +78,7 @@ user_router.post('/update', async (req, res) => {
 })
 
 user_router.get("/:id/grades", async (req, res) => {
-  axios.get(`${user_api_url}/grades/${res.params.id}`)
+  axios.get(`${user_api_url}/grades/${req.params.id}`)
     .then((response) => {
       res.status(response.status).send(response.data)
     })
@@ -107,16 +107,13 @@ user_router.post('/:id/grades/statistics', async (req, res) => {
       const tests = response.data
       let grade_array = []
 
+      // Get grades from tests
       for (let i = 0; i < tests.length; i++) {
-        grade_array.push({
-          grade: tests[i].grade,
-          id: tests[i].test_id,
-          course_id: tests[i].course_id
-        })
+        grade_array.push(tests[i].grade)
       }
 
-      const statistics = await axios.get('http://statistics:5000/', { 'tests': grade_array })
-      res.status(200).send(statistics)
+      const statistics = await axios.post('http://statistics:5000/', { 'grades': grade_array })
+      res.status(200).send(statistics.data)
     })
     .catch((error) => {
       res.status(400).send({ error: error })

@@ -1,9 +1,13 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link>
+    <router-link to="/">Home</router-link> |
+    <router-link to="/login">Logout</router-link>
   </nav>
   <div v-if="alert.message" :class="`alert ${alert.type}`">{{ alert.message }}</div>
   <router-view/>
+  <footer>
+    <p>Coded with &#10084;&#65039; by SexyCoders &copy; 2022</p>
+  </footer>
 </template>
 
 <script>

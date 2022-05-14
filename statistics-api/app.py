@@ -22,15 +22,15 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def index():
   response_object = {}
   data = request.get_json()
-  data = pd.DataFrame(data['tests'])
-  data = data.where(data['grade'] > 2.5).dropna()
 
-  max_value = data['grade'].max()
-  min_value = data['grade'].min()
-  response_object['max'] = { "value": max_value, "course": data['course_id'][data['grade'].idxmax()] }
-  response_object['min'] = { "value": min_value, "course": data['course_id'][data['grade'].idxmin()] }
-  response_object['mean'] = data['grade'].mean()
-  response_object['sum'] = data['grade'].size
+  response_object['max'] = max(data['grades'])
+  response_object['min'] = min(data['grades'])
+  response_object['total'] = len(data['grades'])
+
+  sum = 0.0
+  for grade in data['grades']:
+    sum += grade
+  response_object['average'] = sum / len(data['grades'])
 
   return jsonify(response_object)
 
