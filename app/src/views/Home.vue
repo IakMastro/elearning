@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Welcome {{ user.name }} {{ user.surname }}!</h3>
+    <h3 style="text-align: center; padding: 1rem;">Welcome {{ user.name }} {{ user.surname }}!</h3>
     <b-card style="padding: 5rem;">
       <div class="row">
         <div class="col-sm-4">
@@ -15,7 +15,7 @@
           </p>
         </div>
         <div class="col-sm-8">
-          <h5 v-if="!user.is_tutor">Your Enrolled Courses</h5>
+          <h5 style="text-align: center;" v-if="!user.is_tutor">Your Enrolled Courses</h5>
           <h5 v-else>Your Courses</h5>
           <courses-list/>
         </div>
@@ -33,7 +33,7 @@
           </p>
         </div>
         <div class="col-sm-8">
-          <h5>Your Grades</h5>
+          <h5 style="text-align: center;">Your Grades</h5>
           <grades-list/>
         </div>
       </div>

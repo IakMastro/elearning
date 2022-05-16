@@ -1,9 +1,5 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/courses">Courses</router-link> |
-    <router-link to="/login">Logout</router-link>
-  </nav>
+  <Header />
   <div v-if="alert.message" :class="`alert ${alert.type}`">{{ alert.message }}</div>
   <router-view/>
   <footer>
@@ -13,8 +9,13 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import Header from '@/components/Header.vue'
+
 export default {
   name: 'app',
+  components: {
+    Header
+  },
   computed: {
     ...mapState({
       alert: state => state.alert
@@ -32,24 +33,24 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Exo+2');
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  background-color: #F8F8F8 !important;
+  font-family: 'Exo 2', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
+footer {
+  position: relative;
+  z-index: 1;
+  color: #2c3539;
+  background-color: #F8F8F8;
+  margin-bottom: 0;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  p {
+    text-align: center;
   }
 }
 </style>
