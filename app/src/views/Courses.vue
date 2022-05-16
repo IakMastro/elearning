@@ -1,19 +1,22 @@
 <template>
-  <div style="display: flex; flex-direction: row; height: 100%">
-    <div style="background-color: #0000; padding: 2rem"></div>
-    <div style="overflow: hidden; flex-grow: 1">
-      <ag-grid-vue
-        id="CoursesTable"
-        class="ag-theme-balham-dark"
-        style="height: 100%; width: 100%;"
-        :columnDefs="columnDefs"
-        :rowData="courses"
-        @grid-ready="onGridReady"
-        @cell-clicked="onCellClicked"
-      />
+  <b-card>
+    <h5>Select a course</h5>
+    <div style="display: flex; flex-direction: row; height: 100%">
+      <div style="background-color: #0000; padding: 2rem"></div>
+      <div style="overflow: hidden; flex-grow: 1">
+        <ag-grid-vue
+          id="CoursesTable"
+          class="ag-theme-balham-dark"
+          style="height: 100%; width: 100%;"
+          :columnDefs="columnDefs"
+          :rowData="courses"
+          @grid-ready="onGridReady"
+          @cell-clicked="onCellClicked"
+        />
+      </div>
+      <div style="background-color: #0000; padding: 2rem"></div>
     </div>
-    <div style="background-color: #0000; padding: 2rem"></div>
-  </div>
+  </b-card>
 </template>
 
 <script>

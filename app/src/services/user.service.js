@@ -17,7 +17,7 @@ async function login(id, password) {
 }
 
 function logout() {
-  localStorage.removeItem('user')
+  localStorage.clear()
 }
 
 async function register(user) {

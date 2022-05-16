@@ -1,6 +1,7 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
+    <router-link to="/courses">Courses</router-link> |
     <router-link to="/login">Logout</router-link>
   </nav>
   <div v-if="alert.message" :class="`alert ${alert.type}`">{{ alert.message }}</div>

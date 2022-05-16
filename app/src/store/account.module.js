@@ -14,9 +14,9 @@ const actions = {
       .then(
         query => {
           if (query.data.user_role !== undefined) {
-            commit('loginSuccess', { id: id, role: query.data.user_role })
+            commit('loginSuccess', { id: id })
             dispatch('alert/success', "Logged in successfully!", { root: true })
-            localStorage.setItem('user', id)
+            localStorage.setItem('user', JSON.stringify({ id: id }))
             router.push('/')
           }
 
@@ -50,7 +50,7 @@ const actions = {
       )
   },
   getGrades({ commit }) {
-    user_service.getGrades(user)
+    user_service.getGrades(user.id)
       .then(
         query => {
           localStorage.setItem('grades', JSON.stringify(query.data))
@@ -59,7 +59,7 @@ const actions = {
       )
   },
   getStatistics({ commit }) {
-    user_service.getStatistics(user, grades)
+    user_service.getStatistics(user.id, grades)
       .then(
         query => {
           localStorage.setItem('statistics', JSON.stringify(query.data))

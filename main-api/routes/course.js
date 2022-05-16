@@ -28,14 +28,14 @@ courses_router.get('/:id', async (req, res) => {
           category: sql_course.category,
           subcategory: sql_course.subcategory,
           description: sql_course.description,
-          tutorId: sql_course.tutorId
+          tutor_id: sql_course.tutor_id
         })
       })
       .catch((error) => {
         res.status(400).send({ error: error })
       })
   })
-  res.send(404)
+  res.status(404)
 })
 
 courses_router.post('/:id', async (req, res) => {

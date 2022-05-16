@@ -19,8 +19,11 @@ async function getAll() {
   return courses
 }
 
-async function getById() {
-  return await axios.get(`${api_url}/${id}`)
+async function getById(id) {
+  let course = await axios.get(`${api_url}/${id}`)
+  let user = await user_service.getById(course.data.tutor_id)
+  course.data.tutor = `${user.data.name} ${user.data.surname}`
+  return course
 }
 
 async function create(course) {

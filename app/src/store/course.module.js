@@ -1,11 +1,13 @@
 import { course_service } from "@/services/course.service"
 
-const state = JSON.parse(localStorage.getItem('courses'))
+const courses = JSON.parse(localStorage.getItem('courses'))
+const state = courses ? { courses: courses } : { courses: null }
 
 const actions = {
   async getAll({ commit }) {
     let courses = await course_service.getAll()
     commit('getAllSuccess', courses.data)
+    localStorage.setItem('courses', JSON.stringify(courses.data))
   },
   getById({ commit }, id) {
     course_service.getById(id)
@@ -43,8 +45,8 @@ const mutations = {
   getAllSuccess(state, courses) {
     state.courses = courses
   },
-  getById(state, course) {
-    state.current_course = course
+  getByIdSuccess(state, course) {
+    state.course = course
   },
   createSuccess(state, course) {
     state.push(course)
