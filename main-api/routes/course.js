@@ -17,7 +17,7 @@ courses_router.get('/', async (req, res) => {
 })
 
 courses_router.get('/:id', async (req, res) => {
-  courses.findById(req.params.id, 'content', (err, course) => {
+  courses.findById(req.params.id, 'chapters', (err, course) => {
     axios.get(`${users_api_url}/courses/${req.params.id}`)
       .then((response) => {
         const sql_course = response.data
@@ -28,7 +28,8 @@ courses_router.get('/:id', async (req, res) => {
           category: sql_course.category,
           subcategory: sql_course.subcategory,
           description: sql_course.description,
-          tutor_id: sql_course.tutor_id
+          tutor_id: sql_course.tutor_id,
+          rating: sql_course.rating
         })
       })
       .catch((error) => {

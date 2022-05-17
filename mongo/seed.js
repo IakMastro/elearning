@@ -1,11 +1,5 @@
 db.users.drop();
 db.users.insertMany([
-  { _id: '1', password: 'pass', role: 'professor' },
-  { _id: '2', password: 'pass', role: 'professor' },
-  { _id: '3', password: 'pass', role: 'professor' },
-  { _id: '4', password: 'pass', role: 'professor' },
-  { _id: '5', password: 'pass', role: 'professor' },
-  { _id: '6', password: 'pass', role: 'professor' },
   { _id: '1645', password: 'pass', role: 'student' },
   { _id: '1646', password: 'pass', role: 'student' },
   { _id: '1647', password: 'pass', role: 'student' },
@@ -17,10 +11,11 @@ db.users.insertMany([
 db.courses.drop();
 db.courses.insertMany([
   {
-    _id: '1',
+    _id: '0',
     chapters: [
       {
-        files: [{ file_name: 'path_to file' }],
+        id: 1,
+        files: ['path_to file'],
         test: [
           {
             _id: '1',

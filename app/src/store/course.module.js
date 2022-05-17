@@ -1,7 +1,8 @@
 import { course_service } from "@/services/course.service"
 
 const courses = JSON.parse(localStorage.getItem('courses'))
-const state = courses ? { courses: courses } : { courses: null }
+const current_course = JSON.parse(localStorage.getItem('course'))
+const state = courses ? { courses: courses, course: current_course } : { courses: null, course: null }
 
 const actions = {
   async getAll({ commit }) {
@@ -14,6 +15,7 @@ const actions = {
       .then(
         query => {
           commit('getByIdSuccess', query.data)
+          localStorage.setItem('course', JSON.stringify(query.data))
         }
       )
   },

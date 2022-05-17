@@ -1,10 +1,27 @@
 <template>
   <div>
     <b-card style="padding: 5rem;">
-      <h3>{{ this.course.name }}</h3>
-      <h5>Inducted by {{ this.course.tutor }}</h5>
-      <h5>Category: {{ this.course.category }} - {{ this.course.subcategory }}</h5>
-      <p>{{ this.course.description }}</p>
+      <div class="row mb-5">
+        <b-card class="col6 col-xl-6 col-lg-6 col-md-12 col-sm-12 d-flex align-items-center justify-content-start">
+          <h1 class="font-weight-bold text-uppercase pt-3">{{ this.course.name }}</h1>
+          <p>{{ this.course.description }}</p>
+        </b-card>
+
+        <b-card class="col6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <h5>Tutor: {{ this.course.tutor }}</h5>
+          <h5>Category: {{ this.course.category }} - {{ this.course.subcategory }}</h5>
+          <span class="float-left pr-3">Rating: {{ this.course.rating }}</span>
+        </b-card>
+      </div>
+
+      <b-card>
+        <h3>Chapters</h3>
+        <div class="col4 flex-fill" v-for="(chapter, index) in this.course.chapters" :key="index">
+          <h6>Chapter {{ chapter.id }}</h6>
+          {{ chapter }}
+        </div>
+      </b-card>
+
     </b-card>
   </div>
 </template>
@@ -12,6 +29,11 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
+  setup() {
+    return {
+      active: 1
+    }
+  },
   created() {
     this.getById(this.$route.params.id)
   },
@@ -19,7 +41,23 @@ export default {
     ...mapState('course', ['course'])
   },
   methods: {
-    ...mapActions('course', ['getById'])
+    ...mapActions('course', ['getById']),
+    selectChapter(index) {
+      this.active = index
+    }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.col4 {
+  margin-bottom: 2rem;
+
+  h6 {
+    height: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid lightgrey;
+    color: grey;
+  }
+}
+</style>

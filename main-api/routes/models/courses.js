@@ -2,7 +2,11 @@ import mongoose from 'mongoose'
 
 const schema = mongoose.Schema({
   _id: String,
-  content: []
+  chapters: [{
+    files: [String],
+    test: [Object],
+    grade_weight: Number
+  }]
 })
 
 export default mongoose.model('Courses', schema);
