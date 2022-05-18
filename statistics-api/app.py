@@ -23,6 +23,9 @@ def index():
   response_object = {}
   data = request.get_json()
 
+  if len(data['grades']) != 0:
+    return jsonify({})
+
   response_object['max'] = max(data['grades'])
   response_object['min'] = min(data['grades'])
   response_object['total'] = len(data['grades'])
