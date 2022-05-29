@@ -8,6 +8,7 @@ export const user_service = {
   register,
   getById,
   update,
+  addGrade,
   getGrades,
   getStatistics
 }
@@ -30,6 +31,10 @@ async function getById(id) {
 
 async function update(user) {
   return await axios.put(`${api_url}/${id}`, { updated_user: user })
+}
+
+async function addGrade(id, grade, test_id, course) {
+  return await axios.post(`${api_url}/${id}/grades/add`, { grade: grade, course: course, id: test_id })
 }
 
 async function getGrades(id) {

@@ -3,7 +3,7 @@
   <div v-if="alert.message" :class="`alert ${alert.type}`">{{ alert.message }}</div>
   <router-view/>
   <footer>
-    <p>Coded with &#10084;&#65039; by SexyCoders &copy; 2022</p>
+    <p>Coded with &#10084;&#65039; by IakMastro &copy; 2022</p>
   </footer>
 </template>
 

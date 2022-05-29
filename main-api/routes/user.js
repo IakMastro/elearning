@@ -88,11 +88,13 @@ user_router.get("/:id/grades", async (req, res) => {
 })
 
 user_router.post('/:id/grades/add', async (req, res) => {
-  let test = req.body.test
+  let test = req.body
 
   axios.post(`${user_api_url}/grades`, {
     grade: test.grade,
     test_id: test.id,
+    student_id: parseInt(req.params.id),
+    course_id: parseInt(test.course),
     user_id: req.params.id
   }).then((response) => {
     res.send(response.status)

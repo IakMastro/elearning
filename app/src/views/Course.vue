@@ -18,21 +18,39 @@
         <h3>Chapters</h3>
         <div class="col4 flex-fill" v-for="(chapter, index) in this.course.chapters" :key="index">
           <h6>Chapter {{ chapter.id }}</h6>
-          {{ chapter }}
+          <chapter :chapter="chapter" :course="this.course.id"/>
+        </div>
+
+        <div class="col4 flex-fill">
+          <h6>Final Test</h6>
+          <b-card>
+            <h5>Take the revision test to see your progress!</h5>
+            <Test :test="this.course.test" :course="this.course.id" :chapter="0" />
+          </b-card>
         </div>
       </b-card>
 
+      <b-card>
+        <h3> DEBUG: {{ this.course }}</h3>
+      </b-card>
     </b-card>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import Chapter from '@/components/Chapter.vue'
+import Test from '@/components/Test.vue'
+
 export default {
   setup() {
     return {
       active: 1
     }
+  },
+  components: {
+    Chapter,
+    Test
   },
   created() {
     this.getById(this.$route.params.id)

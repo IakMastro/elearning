@@ -165,6 +165,7 @@ func getGrades(c *gin.Context) {
 func addGrade(c *gin.Context) {
 	var grade Grade
 	c.BindJSON(&grade)
+	log.Default().Println(grade)
 	err := dbmap.Insert(&grade)
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})

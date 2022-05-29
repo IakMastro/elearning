@@ -49,6 +49,14 @@ const actions = {
         }
       )
   },
+  addGrade({ dispatch }, { grade, test_id, course }) {
+    if (grade > 2) {
+      dispatch('alert/success', `You got ${grade}/5! Congrats, you passed!`, { root: true })
+      user_service.addGrade(user.id, grade, test_id, course)
+    } else {
+      dispatch('alert/error', `You got ${grade}/5! You failed! Try again and study harder...`, { root: true })
+    }
+  },
   getGrades({ commit }) {
     user_service.getGrades(user.id)
       .then(

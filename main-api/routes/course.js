@@ -23,6 +23,7 @@ courses_router.get('/:id', async (req, res) => {
         const sql_course = response.data
 
         res.status(200).send({
+          id: course._id,
           chapters: course.chapters,
           name: sql_course.name,
           category: sql_course.category,
@@ -47,6 +48,12 @@ courses_router.post('/:id', async (req, res) => {
     .catch((error) => {
       res.status(400).send({ error: error })
     })
+})
+
+courses_router.get('/:id/:index/test', async (req, res) => {
+  courses.findById(req.params.id, 'chapters', (err, course) => {
+    res.send({ test: course.chapters[req.params.index].test })
+  })
 })
 
 // NOTE: This needs testing
