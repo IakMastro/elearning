@@ -29,10 +29,6 @@
           </b-card>
         </div>
       </b-card>
-
-      <b-card>
-        <h3> DEBUG: {{ this.course }}</h3>
-      </b-card>
     </b-card>
   </div>
 </template>
