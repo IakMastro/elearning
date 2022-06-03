@@ -11,7 +11,7 @@ db.users.insertMany([
 db.courses.drop();
 db.courses.insertMany([
   {
-    _id: '0',
+    _id: '1',
     chapters: [
       {
         id: 1,
