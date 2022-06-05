@@ -1,15 +1,15 @@
 <template>
   <div>
     <b-card>
-      <h6>Description</h6>
+      <h5>Description</h5>
       <p>{{ chapter.description }}</p>
-      <h6>Files</h6>
+      <h5>Files</h5>
       <ul>
-        <li v-for="file in chapter.files">
-          <b-button variant="outline-dark" v-on:click="downloadFile(file)">{{ file }}</b-button>
+        <li v-for="(file, index) in this.chapter.files" :key="index" style="list-style-type: none; margin-top: 1rem;">
+          <b-button variant="outline-dark" v-on:click="downloadFile(file)"><b>{{ file }}</b></b-button>
         </li>
       </ul>
-      <h6>Test</h6>
+      <h5>Test</h5>
       <Test :test="chapter.test" :course="course" :chapter="chapter.id"/>
     </b-card>
   </div>
@@ -17,6 +17,7 @@
 
 <script>
 import Test from '@/components/Test.vue'
+import { saveAs } from 'file-saver'
 
 export default {
   props: ['chapter', 'course'],
@@ -25,11 +26,7 @@ export default {
   },
   methods: {
     downloadFile(file) {
-      console.log(file)
-    },
-    giveTest(test) {
-      console.log(test);
-      this.$router.push({ name: 'tests', query: { course: this.$route.params.id, chapter: chapter.id } })
+      saveAs(`http://localhost:5000/courses/${this.$route.params.id}/${this.chapter.id}/files/${file}`, file)
     }
   }
 }

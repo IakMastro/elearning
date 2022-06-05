@@ -15,7 +15,7 @@ db.courses.insertMany([
     chapters: [
       {
         id: 1,
-        files: ['path_to file'],
+        files: ["filename"],
         test: [
           {
             _id: '1',

@@ -90,8 +90,8 @@ courses_router.post('/:id/:index/files/upload', async (req, res) => {
 })
 
 // NOTE: This needs testing
-courses_router.get('/:id/:index/files/:path', async (req, res) => {
-  res.download(req.params.path)
+courses_router.get('/:id/:index/files/:filename', async (req, res) => {
+  res.download(`/files/${req.params.id}/${req.params.index}/${req.params.filename}`)
 })
 
 export default courses_router

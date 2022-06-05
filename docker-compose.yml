@@ -97,12 +97,6 @@ services:
     networks:
       - elearningnet
 
-  redis:
-    image: redis:6.0-alpine3.15
-    hostname: redis
-    networks:
-      - elearningnet
-
 networks:
   elearningnet:
     name: elearningnet

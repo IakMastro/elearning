@@ -1,3 +1,0 @@
-[submodule "oauth2"]
-	path = oauth2
-	url = git@github.com:SexyCoders/oauth2.git
