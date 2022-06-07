@@ -5,12 +5,12 @@
       <p>{{ chapter.description }}</p>
       <h5>Files</h5>
       <ul>
-        <li v-for="(file, index) in this.chapter.files" :key="index" style="list-style-type: none; margin-top: 1rem;">
+        <li v-for="(file, index) in this.chapter.files" :key="index" style="margin-top: 1rem;">
           <b-button variant="outline-dark" v-on:click="downloadFile(file)"><b>{{ file }}</b></b-button>
         </li>
       </ul>
       <h5>Test</h5>
-      <Test :test="chapter.test" :course="course" :chapter="chapter.id"/>
+      <test :test="chapter.test" :course="course" :chapter="chapter.id"/>
     </b-card>
   </div>
 </template>

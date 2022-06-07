@@ -25,7 +25,7 @@
           <h6>Final Test</h6>
           <b-card>
             <h5>Take the revision test to see your progress!</h5>
-            <Test :test="this.course.test" :course="this.course.id" :chapter="0" />
+            <test :test="this.course.test" :course="this.course.id" :chapter="0" />
           </b-card>
         </div>
       </b-card>

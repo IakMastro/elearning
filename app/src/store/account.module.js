@@ -35,9 +35,8 @@ const actions = {
     user_service.logout()
     commit('logout')
   },
-  register({ dispatch, commit }, user) {
+  register({ commit }, user) {
     commit('registerRequest', user)
-
     user_service.register(user)
   },
   getData({ commit }, id) {
@@ -50,11 +49,13 @@ const actions = {
       )
   },
   addGrade({ dispatch }, { grade, test_id, course }) {
-    if (grade > 2) {
+    if (grade >= 50) {
       dispatch('alert/success', `You got ${grade}/5! Congrats, you passed!`, { root: true })
+      alert(`You got ${grade}/100! Congrats, you passed!`)
       user_service.addGrade(user.id, grade, test_id, course)
     } else {
       dispatch('alert/error', `You got ${grade}/5! You failed! Try again and study harder...`, { root: true })
+      alert(`You got ${grade}/100! You failed! Try again and study harder...`)
     }
   },
   getGrades({ commit }) {

@@ -1,30 +1,27 @@
 <template>
   <div>
-    <b-button id="show-btn" variant="outline-primary" v-b-modal.bv-modal-test>Participate on Test</b-button>
+    <b-button id="show-btn" variant="primary" @click="showTest">Participate on Test</b-button>
 
-    <b-modal ref="modalTest" id="bv-modal-test" hide-footer title="Answer to the questions">
-      <b-form @submit="submitTest" @reset="resetTest" class="w-100">
-        <div v-for="(question, index) in this.test" :key="index">
-          <h5>Question {{ index + 1 }}</h5>
-          <p>{{ question.question }}</p>
+    <div v-if="show" style="margin-top: 1rem;">
+      <div v-for="(question, index) in this.test" :key="index">
+        <h5>Question {{ index + 1 }}</h5>
+        <p>{{ question.question }}</p>
 
-          <b-form-group id="multiple-choice" label="Select one">
-            <select v-model="answers[index]">
-              <option disabled default value="">Please select one answer</option>
-              <option>{{ question.answer_1 }}</option>
-              <option>{{ question.answer_2 }}</option>
-              <option>{{ question.answer_3 }}</option>
-              <option>{{ question.answer_4 }}</option>
-            </select>
-          </b-form-group>
+        <div id="multiple-choice" label="Select one">
+          <select v-model="answers[index]">
+            <option disabled default value="">Please select one answer</option>
+            <option>{{ question.answer_1 }}</option>
+            <option>{{ question.answer_2 }}</option>
+            <option>{{ question.answer_3 }}</option>
+            <option>{{ question.answer_4 }}</option>
+          </select>
         </div>
-
-        <b-button-group>
-          <b-button type="submit" variant="primary">Submit</b-button>
-          <b-button type="reset" variant="danger">Reset</b-button>
-        </b-button-group>
-      </b-form>
-    </b-modal>
+      </div>
+      <div style="margin-top: 1rem;">
+        <b-button variant="primary" @click="submitTest">Submit</b-button>
+        <b-button variant="danger" @click="resetTest">Reset</b-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -34,7 +31,8 @@ export default {
   props: ['test', 'course', 'chapter'],
   data() {
     return {
-      answers: []
+      answers: [],
+      show: false
     }
   },
   methods: {
@@ -48,15 +46,17 @@ export default {
         }
 
         if (this.answers[i] === this.test[i].correct) {
-          grade += 1
+          grade += this.test[i].grade_weight
         }
       }
 
-      console.log(grade);
       this.addGrade( { grade: grade, test_id: this.chapter, course: this.course })
     },
     resetTest() {
       this.answers = []
+    },
+    showTest() {
+      this.show = !this.show
     }
   }
 }

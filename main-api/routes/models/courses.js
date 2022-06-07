@@ -6,7 +6,8 @@ const schema = mongoose.Schema({
     files: [String],
     test: [Object],
     grade_weight: Number
-  }]
+  }],
+  test: [Object]
 })
 
 export default mongoose.model('Courses', schema);
